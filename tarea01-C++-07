@@ -1,0 +1,16 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main () {
+    double a;
+    cout << "introduce la nota final ";
+    cin >> a ;
+    if(a>50){
+        cout << "El estudiante aprobo el examen";
+    }
+    else{
+        cout << "El estudiante reprobo la materia";
+    }
+    return 0;
+
+}
