@@ -1,0 +1,10 @@
+lgoritmo sin_titulo
+	Definir a Como Real
+	Escribir "Introduce un valor"
+	Leer a
+	si a mod 2 = 0 Entonces
+		Escribir " En numero ", a, " es par"
+	SiNo
+		Escribir " En numero ", a, " es impar"
+	FinSi	
+FinAlgoritmo
