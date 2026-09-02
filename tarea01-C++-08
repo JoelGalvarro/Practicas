@@ -1,0 +1,15 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main (){
+    double a, b;
+    cout << "Cual es el monto de la compra?";
+    cin >> a;
+        if(a>100){
+            b = a-(a*10/100);
+            cout << "El valor de la compra es de " << b << endl;
+        }
+        else{
+            cout << "El valor de la compra es de " << a << endl;
+        }
+}
