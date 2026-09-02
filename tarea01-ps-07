@@ -1,0 +1,10 @@
+Algoritmo sin_titulo
+	Definir a Como Real
+	Escribir "Introduce la nota final"
+	Leer a
+	si a>51 Entonces
+		Escribir "El estudiante aprobo"
+	SiNo
+		Escribir "El estudiante reprobado"
+	FinSi
+FinAlgoritmo
