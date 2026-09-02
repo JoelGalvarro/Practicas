@@ -1,0 +1,7 @@
+Algoritmo sin_titulo
+	Definir a, b Como Real
+	Escribir "Cuantos cuadernos vas a comprar"
+	leer a
+	b=a*12
+	Escribir "El total de la compra ", b
+FinAlgoritmo
