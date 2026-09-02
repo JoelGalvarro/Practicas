@@ -1,0 +1,9 @@
+Algoritmo sin_titulo
+	Definir a, b, c Como Real
+	Escribir "Introduce la base del triangulo"
+	leer a
+	Escribir "Introduce la altura del triangulo"
+	leer b
+	c=a*b/2
+	Escribir "El area del triangulo es ", c	
+FinAlgoritmo
