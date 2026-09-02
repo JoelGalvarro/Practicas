@@ -1,0 +1,14 @@
+Algoritmo sin_titulo
+	Definir a, b, c, d como Real
+	Escribir "Cuantas horas trabajo"
+	Leer a
+	Escribir "Cuanto es el pago por hora"
+	Leer b
+	c = a * b
+	si a > 40 Entonces
+		d = c + (c* 10/100)
+		Escribir "Usted gano un bono del 10% y su pago sera de ", d
+	SiNo
+		Escribir "Su pago sera de ", c
+	FinSi
+FinAlgoritmo
