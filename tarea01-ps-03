@@ -1,0 +1,9 @@
+Algoritmo sin_titulo
+	definir a, b, c Como Real
+	Escribir "introduce un valor"
+	leer a
+	Escribir "introduce un valor"
+	leer b
+	c = a + b
+	Escribir "el resultado es ", c	
+FinAlgoritmo
