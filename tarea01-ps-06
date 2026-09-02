@@ -1,0 +1,12 @@
+Algoritmo sin_titulo
+	Definir a, b Como Real
+	Escribir 'Introduce un valor'
+	Leer a
+	Escribir 'Introduce un valor'
+	Leer b
+	si a > b Entonces
+		Escribir "El valor mayor es ",a
+	sino 
+		Escribir "En valor mayor es ",b
+	FinSi
+FinAlgoritmo
