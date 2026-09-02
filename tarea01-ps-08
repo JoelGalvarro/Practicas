@@ -1,0 +1,11 @@
+Algoritmo sin_titulo
+	Definir a, b como real
+	Escribir "Introduce el valor de la compra"
+	leer a
+	si a>100 Entonces
+		b = a*90/100
+		Escribir "El valor final de la compra es de ", b
+	SiNo
+		Escribir "El valor final de la compra es de ", a
+	FinSi	
+FinAlgoritmo
