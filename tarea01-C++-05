@@ -1,0 +1,11 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main (){
+    double a, b;
+    cout << "Cuantos  cuadernos va a comprar ";
+    cin >> a;
+    b = a * 12;
+    cout << "El costo total de los cuadernos es de " << b << endl;
+    return 0;
+}
