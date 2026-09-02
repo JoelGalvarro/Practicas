@@ -1,0 +1,15 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main (){
+    int a;
+    cout << "introduce un valor";
+    cin >> a;
+    if (a % 2 == 0){
+        cout << "el valor es par";
+    }
+    else{
+        cout << "el valor es impar";
+    }
+
+}
