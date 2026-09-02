@@ -1,0 +1,12 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main (){
+    double a, b, c;
+    cout << "ingresa un valor ";
+    cin >> a;
+    cout << "ingresa un valor ";
+    cin >> b;
+    c = a + b;
+    cout << "el resultado es de " << c << endl;
+}
