@@ -1,0 +1,13 @@
+Algoritmo sin_titulo
+	Definir nombre, carrera, semestre como cadena
+	Definir edad Como Real
+	Escribir "introduce tu nombre"
+	leer nombre
+	Escribir "introduce tu carrera"
+	leer carrera
+	Escribir "introduce tu semestre"
+	leer semestre
+	Escribir "introduce tu edad"
+	leer edad
+	Escribir "tu nombre es ", nombre,", tu edad es ", edad,", tu carrera es ", carrera," y tu semestre ", semestre
+FinAlgoritmo
