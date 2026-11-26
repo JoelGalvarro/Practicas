@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+
+void mostrarFibonacci(int n) {
+    unsigned long long a = 0, b = 1;
+    for (int i = 1; i <= n; i++) {
+        cout << a << (i < n ? ", " : "\n");
+        unsigned long long siguiente = a + b;
+        a = b;
+        b = siguiente;
+    }
+}
+
+int main() {
+    int n;
+    cout << "Ingrese la cantidad N de numeros de Fibonacci: ";
+    cin >> n;
+
+    if (n <= 0) {
+        cout << "N debe ser mayor que 0." << endl;
+    } else {
+        mostrarFibonacci(n);
+    }
+    return 0;
+}
