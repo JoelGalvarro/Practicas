@@ -1,0 +1,26 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    long long n;
+    int pares = 0;
+    cout << "Ingrese un numero entero: ";
+    cin >> n;
+
+    n = abs(n);
+    if (n == 0) {
+        pares = 1;
+    } else {
+        while (n > 0) {
+            int digito = n % 10;
+            if (digito % 2 == 0) {
+                pares++;
+            }
+            n /= 10;
+        }
+    }
+
+    cout << "Cantidad de digitos pares: " << pares << endl;
+    return 0;
+}
