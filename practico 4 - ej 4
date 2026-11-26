@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    long long n, original, invertido = 0;
+    cout << "Ingrese un numero entero positivo: ";
+    cin >> n;
+
+    if (n < 0) {
+        cout << "No es capicua." << endl;
+        return 0;
+    }
+
+    original = n;
+    while (n > 0) {
+        invertido = invertido * 10 + (n % 10);
+        n /= 10;
+    }
+
+    if (original == invertido) {
+        cout << original << " es capicua." << endl;
+    } else {
+        cout << original << " no es capicua." << endl;
+    }
+    return 0;
+}
