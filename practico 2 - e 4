@@ -1,0 +1,17 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int a, b;
+    cout << "Ingrese dos numeros enteros: ";
+    cin >> a >> b;
+
+    if (a > b) {
+        cout << "Mayor: " << a << " | Menor: " << b << endl;
+    } else if (b > a) {
+        cout << "Mayor: " << b << " | Menor: " << a << endl;
+    } else {
+        cout << "Ambos numeros son iguales." << endl;
+    }
+    return 0;
+}
