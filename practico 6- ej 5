@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+
+bool esPrimo(int n) {
+    if (n <= 1) return false;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+int main() {
+    int n;
+    cout << "Ingrese un numero entero: ";
+    cin >> n;
+
+    if (esPrimo(n)) {
+        cout << n << " es primo." << endl;
+    } else {
+        cout << n << " no es primo." << endl;
+    }
+    return 0;
+}
