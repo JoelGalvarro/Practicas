@@ -1,0 +1,81 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+int leerCantidadDias() {
+    int dias;
+    do {
+        cout << "Ingrese la cantidad de dias a evaluar: ";
+        cin >> dias;
+        if (dias <= 0) {
+            cout << "Error: La cantidad de dias debe ser mayor a 0." << endl;
+        }
+    } while (dias <= 0);
+    return dias;
+}
+
+double leerVentaDiaria(int dia) {
+    double monto;
+    do {
+        cout << "Ingrese el monto vendido en el dia " << dia << " (Bs.): ";
+        cin >> monto;
+        if (monto < 0) {
+            cout << "Error: El monto no puede ser negativo." << endl;
+        }
+    } while (monto < 0);
+    return monto;
+}
+
+string clasificarVenta(double monto) {
+    if (monto > 1000.0) {
+        if (monto > 2000.0) {
+            return "Venta excelente";
+        } else {
+            return "Venta alta";
+        }
+    } else {
+        if (monto < 500.0) {
+            return "Venta baja";
+        } else {
+            return "Venta regular";
+        }
+    }
+}
+
+void procesarVentas(int dias, double &totalVendido, double &promedioDiario, int &diasMayores1000) {
+    totalVendido = 0.0;
+    diasMayores1000 = 0;
+
+    for (int i = 1; i <= dias; i++) {
+        double monto = leerVentaDiaria(i);
+        string categoria = clasificarVenta(monto);
+        cout << "  -> Clasificacion dia " << i << ": " << categoria << endl;
+
+        totalVendido += monto;
+        if (monto > 1000.0) {
+            diasMayores1000++;
+        }
+    }
+
+    promedioDiario = totalVendido / dias;
+}
+
+void mostrarResultados(double totalVendido, double promedioDiario, int diasMayores1000) {
+    cout << fixed << setprecision(2);
+    cout << "\n--- Resumen de Ventas ---" << endl;
+    cout << "Monto total vendido: Bs. " << totalVendido << endl;
+    cout << "Promedio diario: Bs. " << promedioDiario << endl;
+    cout << "Dias con ventas superiores a Bs. 1.000: " << diasMayores1000 << endl;
+}
+
+int main() {
+    int dias = leerCantidadDias();
+    double totalVendido, promedioDiario;
+    int diasMayores1000;
+
+    procesarVentas(dias, totalVendido, promedioDiario, diasMayores1000);
+    mostrarResultados(totalVendido, promedioDiario, diasMayores1000);
+
+    return 0;
+}
