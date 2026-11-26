@@ -1,0 +1,34 @@
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+using namespace std;
+
+int main() {
+    long long n;
+    int totalHoras = 0, cantApps = 0, appsMas5 = 0;
+    cout << "Ingrese el numero de horas por app (ej. 3946): ";
+    cin >> n;
+
+    n = abs(n);
+    if (n == 0) {
+        cantApps = 1;
+    } else {
+        while (n > 0) {
+            int horas = n % 10;
+            totalHoras += horas;
+            cantApps++;
+            if (horas > 5) {
+                appsMas5++;
+            }
+            n /= 10;
+        }
+    }
+
+    double promedio = static_cast<double>(totalHoras) / cantApps;
+
+    cout << fixed << setprecision(2);
+    cout << "Total de horas: " << totalHoras << endl;
+    cout << "Apps que superan 5 horas: " << appsMas5 << endl;
+    cout << "Promedio de horas por app: " << promedio << endl;
+    return 0;
+}
