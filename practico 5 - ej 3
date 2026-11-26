@@ -1,0 +1,27 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+int main() {
+    string nombre;
+    double horas, precioHora, salarioBruto, impuesto, salarioNeto;
+
+    cout << "Ingrese el nombre del trabajador: ";
+    getline(cin, nombre);
+    cout << "Ingrese las horas trabajadas: ";
+    cin >> horas;
+    cout << "Ingrese el precio por hora: ";
+    cin >> precioHora;
+
+    salarioBruto = horas * precioHora;
+    impuesto = salarioBruto * 0.10;
+    salarioNeto = salarioBruto - impuesto;
+
+    cout << fixed << setprecision(2);
+    cout << "\nTrabajador: " << nombre << endl;
+    cout << "Salario Bruto: " << salarioBruto << " Bs." << endl;
+    cout << "Impuesto (10%): " << impuesto << " Bs." << endl;
+    cout << "Salario Neto: " << salarioNeto << " Bs." << endl;
+    return 0;
+}
