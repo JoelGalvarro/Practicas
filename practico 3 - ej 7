@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    unsigned long long fac = 1;
+    cout << "Ingrese N (>= 0): ";
+    cin >> n;
+
+    if (n < 0) {
+        cout << "No existe factorial para numeros negativos." << endl;
+    } else {
+        for (int i = 1; i <= n; i++) {
+            fac *= i;
+        }
+        cout << n << "! = " << fac << endl;
+    }
+    return 0;
+}
