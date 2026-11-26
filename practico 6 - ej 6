@@ -1,0 +1,34 @@
+#include <iostream>
+#include <string>
+#include <cctype>
+using namespace std;
+
+bool esPalindromo(string texto) {
+    string limpio = "";
+    for (char c : texto) {
+        if (isalnum(static_cast<unsigned char>(c))) {
+            limpio += tolower(static_cast<unsigned char>(c));
+        }
+    }
+
+    int izq = 0, der = limpio.length() - 1;
+    while (izq < der) {
+        if (limpio[izq] != limpio[der]) return false;
+        izq++;
+        der--;
+    }
+    return true;
+}
+
+int main() {
+    string cadena;
+    cout << "Ingrese una cadena de caracteres: ";
+    getline(cin, cadena);
+
+    if (esPalindromo(cadena)) {
+        cout << "Es un palindromo." << endl;
+    } else {
+        cout << "No es un palindromo." << endl;
+    }
+    return 0;
+}
