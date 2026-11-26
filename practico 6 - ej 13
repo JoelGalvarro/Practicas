@@ -1,0 +1,47 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+double areaTriangulo(double base, double altura) {
+    return (base * altura) / 2.0;
+}
+
+double areaCirculo(double radio) {
+    const double PI = acos(-1.0);
+    return PI * pow(radio, 2);
+}
+
+double areaRectangulo(double base, double altura) {
+    return base * altura;
+}
+
+int main() {
+    int opcion;
+    double a, b;
+
+    cout << "1) Triangulo\n2) Circulo\n3) Rectangulo\nElija una figura: ";
+    cin >> opcion;
+
+    cout << fixed << setprecision(2);
+    switch (opcion) {
+        case 1:
+            cout << "Ingrese base y altura: ";
+            cin >> a >> b;
+            cout << "Area del triangulo: " << areaTriangulo(a, b) << endl;
+            break;
+        case 2:
+            cout << "Ingrese el radio: ";
+            cin >> a;
+            cout << "Area del circulo: " << areaCirculo(a) << endl;
+            break;
+        case 3:
+            cout << "Ingrese base y altura: ";
+            cin >> a >> b;
+            cout << "Area del rectangulo: " << areaRectangulo(a, b) << endl;
+            break;
+        default:
+            cout << "Opcion no valida." << endl;
+    }
+    return 0;
+}
