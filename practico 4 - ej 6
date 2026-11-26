@@ -1,0 +1,27 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    long long n;
+    bool esValido = true;
+    cout << "Ingrese un numero para validar en base 8: ";
+    cin >> n;
+
+    n = abs(n);
+    while (n > 0) {
+        int digito = n % 10;
+        if (digito > 7) {
+            esValido = false;
+            break;
+        }
+        n /= 10;
+    }
+
+    if (esValido) {
+        cout << "El numero es valido en base 8." << endl;
+    } else {
+        cout << "El numero es invalido en base 8." << endl;
+    }
+    return 0;
+}
