@@ -1,0 +1,21 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    double consumo, monto;
+    cout << "Ingrese el consumo de agua en m3: ";
+    cin >> consumo;
+
+    if (consumo <= 10) {
+        monto = 20;
+    } else if (consumo <= 20) {
+        monto = 20 + (consumo - 10) * 3;
+    } else {
+        monto = 50 + (consumo - 20) * 5;
+    }
+
+    cout << fixed << setprecision(2);
+    cout << "Monto a pagar: " << monto << " Bs." << endl;
+    return 0;
+}
