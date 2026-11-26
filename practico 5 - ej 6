@@ -1,0 +1,37 @@
+#include <iostream>
+#include <cctype>
+using namespace std;
+
+int main() {
+    char op;
+    int a, b;
+
+    cout << "Operacion (S: suma, R: resta, P/M: producto, D: division): ";
+    cin >> op;
+    cout << "Ingrese dos numeros enteros: ";
+    cin >> a >> b;
+
+    op = toupper(op);
+    switch (op) {
+        case 'S':
+            cout << "Resultado: " << a + b << endl;
+            break;
+        case 'R':
+            cout << "Resultado: " << a - b << endl;
+            break;
+        case 'P':
+        case 'M':
+            cout << "Resultado: " << a * b << endl;
+            break;
+        case 'D':
+            if (b != 0) {
+                cout << "Resultado: " << static_cast<double>(a) / b << endl;
+            } else {
+                cout << "Error: No se puede dividir entre cero." << endl;
+            }
+            break;
+        default:
+            cout << "Operacion no valida." << endl;
+    }
+    return 0;
+}
