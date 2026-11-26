@@ -1,0 +1,25 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    double peso, altura, imc;
+    cout << "Ingrese su peso (kg) y altura (m): ";
+    cin >> peso >> altura;
+
+    imc = peso / pow(altura, 2);
+    cout << fixed << setprecision(2);
+    cout << "Su IMC es: " << imc << endl;
+
+    if (imc < 18.5) {
+        cout << "Categoria: Bajo peso" << endl;
+    } else if (imc < 25) {
+        cout << "Categoria: Normal" << endl;
+    } else if (imc < 30) {
+        cout << "Categoria: Sobrepeso" << endl;
+    } else {
+        cout << "Categoria: Obesidad" << endl;
+    }
+    return 0;
+}
