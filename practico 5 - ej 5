@@ -1,0 +1,22 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    double horas, valorHora, sueldo;
+    cout << "Ingrese las horas trabajadas en la semana: ";
+    cin >> horas;
+    cout << "Ingrese el valor de la hora: ";
+    cin >> valorHora;
+
+    if (horas <= 40) {
+        sueldo = horas * valorHora;
+    } else {
+        double extras = horas - 40;
+        sueldo = (40 * valorHora) + (extras * valorHora * 2);
+    }
+
+    cout << fixed << setprecision(2);
+    cout << "Sueldo semanal: " << sueldo << " Bs." << endl;
+    return 0;
+}
