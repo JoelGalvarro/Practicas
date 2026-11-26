@@ -1,0 +1,27 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    int a, b, x, y, resto, mcd;
+    cout << "Ingrese dos numeros enteros: ";
+    cin >> a >> b;
+
+    x = abs(a);
+    y = abs(b);
+
+    while (y != 0) {
+        resto = x % y;
+        x = y;
+        y = resto;
+    }
+    mcd = x;
+
+    if (mcd == 0) {
+        cout << "El MCM es: 0" << endl;
+    } else {
+        long long mcm = ((long long)abs(a) * abs(b)) / mcd;
+        cout << "El MCM es: " << mcm << endl;
+    }
+    return 0;
+}
