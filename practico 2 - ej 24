@@ -1,0 +1,21 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n, centena, unidad;
+    cout << "Ingrese un numero entero positivo de 3 digitos: ";
+    cin >> n;
+
+    if (n >= 100 && n <= 999) {
+        centena = n / 100;
+        unidad = n % 10;
+        if (centena == unidad) {
+            cout << "El numero es capicua." << endl;
+        } else {
+            cout << "El numero no es capicua." << endl;
+        }
+    } else {
+        cout << "El numero no es un positivo de 3 digitos." << endl;
+    }
+    return 0;
+}
