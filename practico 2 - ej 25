@@ -1,0 +1,27 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    double bs, resultado;
+    int opcion;
+    cout << "Ingrese la cantidad en Bolivianos (Bs.): ";
+    cin >> bs;
+    cout << "Convertir a: 1) Dolares (USD)  2) Euros (EUR): ";
+    cin >> opcion;
+
+    cout << fixed << setprecision(2);
+    switch (opcion) {
+        case 1:
+            resultado = bs / 6.96; // Tipo de cambio referencial
+            cout << "Equivalente en USD: " << resultado << endl;
+            break;
+        case 2:
+            resultado = bs / 7.50; // Tipo de cambio referencial
+            cout << "Equivalente en EUR: " << resultado << endl;
+            break;
+        default:
+            cout << "Opcion no valida." << endl;
+    }
+    return 0;
+}
