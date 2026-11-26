@@ -1,0 +1,545 @@
+#include <iostream>
+#include <string>
+#include <limits>
+using namespace std;
+
+const int MAX_PRODUCTOS = 20;
+const int UMBRAL_STOCK_BAJO = 5;
+const string PREFIJO_PRO = "PRO-";
+
+// ==================== PROTOTIPOS DE FUNCIONES ====================
+void limpiarBuffer();
+int leerEnteroValidado(const string& mensaje, int minVal, int maxVal);
+string leerTextoNoVacio(const string& mensaje, int minLongitud);
+bool validarDatosProducto(const string& nombre, const string& marca, int cantidad);
+int buscarExacto(const string productos[], const string marcas[], int total,
+                 const string& nombreBuscado, const string& marcaBuscada);
+
+// Ej. 1 y 2: Registro y listado de productos
+bool registrarProducto(string productos[], string marcas[], int cantidades[], int& total);
+void registrarProductos(string productos[], string marcas[], int cantidades[], int& total);
+void mostrarProducto(const string productos[], const string marcas[], const int cantidades[], int indice);
+void mostrarProductos(const string productos[], const string marcas[], const int cantidades[], int total);
+
+// Ej. 3: Búsqueda parcial por nombre
+void buscarProductos(const string productos[], const string marcas[], const int cantidades[], int total);
+
+// Ej. 4, 5 y 6: Actualización, venta y reposición de stock
+void actualizarStock(const string productos[], const string marcas[], int cantidades[], int total);
+void registrarVenta(const string productos[], const string marcas[], int cantidades[], int total);
+void reponerStock(const string productos[], const string marcas[], int cantidades[], int total);
+
+// Ej. 7: Alertas de stock bajo y generación de códigos
+string generarCodigo(const string& nombre);
+void mostrarStockBajo(const string productos[], const string marcas[], const int cantidades[], int total);
+
+// Ej. 8: Consulta por marca exacta
+void buscarPorMarca(const string productos[], const string marcas[], const int cantidades[], int total);
+
+// Ej. 9: Edición de nombres de productos
+void corregirNombre(string productos[], const string marcas[], const int cantidades[], int total);
+void agregarPrefijo(string& nombre);
+void quitarPrefijo(string& nombre);
+
+// Ej. 10: Menú principal y resumen del inventario
+void mostrarMenu();
+void mostrarResumen(const string productos[], const string marcas[], const int cantidades[], int total);
+
+// ==================== FUNCIÓN PRINCIPAL ====================
+int main() {
+    string productos[MAX_PRODUCTOS];
+    string marcas[MAX_PRODUCTOS];
+    int cantidades[MAX_PRODUCTOS];
+    int total = 0;
+
+    int opcion = 0;
+    do {
+        mostrarMenu();
+        opcion = leerEnteroValidado("Ingrese una opcion (1-11): ", 1, 11);
+
+        switch (opcion) {
+            case 1:
+                registrarProductos(productos, marcas, cantidades, total);
+                break;
+            case 2:
+                mostrarProductos(productos, marcas, cantidades, total);
+                break;
+            case 3:
+                buscarProductos(productos, marcas, cantidades, total);
+                break;
+            case 4:
+                actualizarStock(productos, marcas, cantidades, total);
+                break;
+            case 5:
+                registrarVenta(productos, marcas, cantidades, total);
+                break;
+            case 6:
+                reponerStock(productos, marcas, cantidades, total);
+                break;
+            case 7:
+                mostrarStockBajo(productos, marcas, cantidades, total);
+                break;
+            case 8:
+                buscarPorMarca(productos, marcas, cantidades, total);
+                break;
+            case 9:
+                corregirNombre(productos, marcas, cantidades, total);
+                break;
+            case 10:
+                mostrarResumen(productos, marcas, cantidades, total);
+                break;
+            case 11:
+                cout << "Saliendo del sistema de inventario. Hasta pronto!\n";
+                break;
+            default:
+                cout << "Opcion no valida.\n";
+                break;
+        }
+    } while (opcion != 11);
+
+    return 0;
+}
+
+// ==================== DEFINICIONES DE FUNCIONES ====================
+
+void limpiarBuffer() {
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+int leerEnteroValidado(const string& mensaje, int minVal, int maxVal) {
+    int valor;
+    while (true) {
+        cout << mensaje;
+        if (cin >> valor) {
+            limpiarBuffer();
+            if (valor >= minVal && valor <= maxVal) {
+                return valor;
+            }
+            cout << "Error: el valor debe estar entre " << minVal << " y " << maxVal << ".\n";
+        } else {
+            cout << "Error: ingrese un numero entero valido.\n";
+            limpiarBuffer();
+        }
+    }
+}
+
+string leerTextoNoVacio(const string& mensaje, int minLongitud) {
+    string texto;
+    while (true) {
+        cout << mensaje;
+        getline(cin, texto);
+        if (texto.empty()) {
+            cout << "Error: el campo no puede estar vacio.\n";
+        } else if (static_cast<int>(texto.length()) < minLongitud) {
+            cout << "Error: debe tener al menos " << minLongitud << " caracteres.\n";
+        } else {
+            return texto;
+        }
+    }
+}
+
+bool validarDatosProducto(const string& nombre, const string& marca, int cantidad) {
+    if (nombre.empty() || static_cast<int>(nombre.length()) < 3) {
+        return false;
+    }
+    if (marca.empty() || static_cast<int>(marca.length()) < 3) {
+        return false;
+    }
+    if (cantidad < 0) {
+        return false;
+    }
+    return true;
+}
+
+int buscarExacto(const string productos[], const string marcas[], int total,
+                 const string& nombreBuscado, const string& marcaBuscada) {
+    if (total <= 0 || total > MAX_PRODUCTOS) {
+        return -1;
+    }
+    for (int i = 0; i < total; i++) {
+        if (productos[i].compare(nombreBuscado) == 0 && marcas[i].compare(marcaBuscada) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// Ejercicio 1: Registrar un único producto validando campos y evitando duplicados
+bool registrarProducto(string productos[], string marcas[], int cantidades[], int& total) {
+    if (total >= MAX_PRODUCTOS) {
+        cout << "Error: se alcanzo la capacidad maxima de " << MAX_PRODUCTOS << " productos.\n";
+        return false;
+    }
+
+    string nombre = leerTextoNoVacio("Nombre del producto (min. 3 caracteres): ", 3);
+    string marca = leerTextoNoVacio("Marca del producto (min. 3 caracteres): ", 3);
+    int cantidad = leerEnteroValidado("Cantidad inicial (>= 0): ", 0, 1000000);
+
+    if (!validarDatosProducto(nombre, marca, cantidad)) {
+        cout << "Error: datos de producto invalidos.\n";
+        return false;
+    }
+
+    int existente = buscarExacto(productos, marcas, total, nombre, marca);
+    if (existente != -1) {
+        cout << "Error: ya existe el producto '" << nombre << "' de la marca '" << marca
+             << "' en el indice " << existente << ".\n";
+        return false;
+    }
+
+    productos[total] = nombre;
+    marcas[total] = marca;
+    cantidades[total] = cantidad;
+    total++;
+
+    cout << "Producto registrado correctamente en el indice " << (total - 1) << ".\n";
+    return true;
+}
+
+// Ejercicio 2: Registrar entre 1 y N productos disponibles hasta MAX_PRODUCTOS
+void registrarProductos(string productos[], string marcas[], int cantidades[], int& total) {
+    if (total >= MAX_PRODUCTOS) {
+        cout << "No hay espacio disponible. Capacidad maxima (" << MAX_PRODUCTOS << ") alcanzada.\n";
+        return;
+    }
+
+    int disponibles = MAX_PRODUCTOS - total;
+    int cantidadARegistrar = leerEnteroValidado(
+        "Cuantos productos desea registrar (1 a " + to_string(disponibles) + "): ", 1, disponibles);
+
+    int registrados = 0;
+    for (int i = 0; i < cantidadARegistrar; i++) {
+        cout << "\n--- Registro " << (i + 1) << " de " << cantidadARegistrar << " ---\n";
+        if (registrarProducto(productos, marcas, cantidades, total)) {
+            registrados++;
+        }
+    }
+    cout << "\nResumen de registro: " << registrados << " producto(s) agregado(s). Total actual: " << total << ".\n";
+}
+
+void mostrarProducto(const string productos[], const string marcas[], const int cantidades[], int indice) {
+    if (indice < 0 || indice >= MAX_PRODUCTOS) {
+        cout << "Error: indice fuera de rango.\n";
+        return;
+    }
+    cout << "[" << indice << "] Producto: " << productos[indice]
+         << " | Marca: " << marcas[indice]
+         << " | Stock: " << cantidades[indice] << "\n";
+}
+
+void mostrarProductos(const string productos[], const string marcas[], const int cantidades[], int total) {
+    if (total <= 0) {
+        cout << "El inventario esta vacio. No hay productos para mostrar.\n";
+        return;
+    }
+    cout << "\n=== LISTADO DE PRODUCTOS (" << total << " registrados) ===\n";
+    for (int i = 0; i < total; i++) {
+        mostrarProducto(productos, marcas, cantidades, i);
+    }
+}
+
+// Ejercicio 3: Búsqueda parcial por subcadena en el nombre usando find()
+void buscarProductos(const string productos[], const string marcas[], const int cantidades[], int total) {
+    if (total <= 0) {
+        cout << "El inventario esta vacio. No se puede realizar la busqueda.\n";
+        return;
+    }
+
+    string termino = leerTextoNoVacio("Ingrese palabra o fragmento a buscar en el nombre: ", 1);
+    int coincidencias = 0;
+
+    cout << "\n--- Resultados de busqueda para '" << termino << "' ---\n";
+    for (int i = 0; i < total; i++) {
+        size_t pos = productos[i].find(termino);
+        if (pos != string::npos && pos < productos[i].length()) {
+            cout << "Indice: " << i
+                 << " | Producto: " << productos[i]
+                 << " | Marca: " << marcas[i]
+                 << " | Stock: " << cantidades[i]
+                 << " (coincidencia en pos " << pos << ")\n";
+            coincidencias++;
+        }
+    }
+
+    if (coincidencias == 0) {
+        cout << "No se encontraron productos cuyo nombre contenga '" << termino << "'.\n";
+    } else {
+        cout << "Total de coincidencias encontradas: " << coincidencias << "\n";
+    }
+}
+
+// Ejercicio 4: Actualizar stock de un producto identificado por nombre exacto y marca
+void actualizarStock(const string productos[], const string marcas[], int cantidades[], int total) {
+    if (total <= 0) {
+        cout << "El inventario esta vacio. No se puede actualizar stock.\n";
+        return;
+    }
+
+    string nombre = leerTextoNoVacio("Nombre exacto del producto: ", 3);
+    string marca = leerTextoNoVacio("Marca exacta del producto: ", 3);
+
+    int idx = buscarExacto(productos, marcas, total, nombre, marca);
+    if (idx == -1) {
+        cout << "Producto no encontrado con ese nombre y marca.\n";
+        return;
+    }
+
+    int nuevoStock = leerEnteroValidado("Ingrese el nuevo stock (>= 0): ", 0, 1000000);
+    int stockAnterior = cantidades[idx];
+    cantidades[idx] = nuevoStock;
+
+    cout << "Stock actualizado para '" << productos[idx] << "' (" << marcas[idx] << "): "
+         << stockAnterior << " -> " << cantidades[idx] << "\n";
+}
+
+// Ejercicio 5: Registrar una venta validando unidades > 0 y <= stock disponible
+void registrarVenta(const string productos[], const string marcas[], int cantidades[], int total) {
+    if (total <= 0) {
+        cout << "El inventario esta vacio. No se puede registrar una venta.\n";
+        return;
+    }
+
+    string nombre = leerTextoNoVacio("Nombre exacto del producto a vender: ", 3);
+    string marca = leerTextoNoVacio("Marca exacta del producto: ", 3);
+
+    int idx = buscarExacto(productos, marcas, total, nombre, marca);
+    if (idx == -1) {
+        cout << "Producto no encontrado.\n";
+        return;
+    }
+
+    int unidades = leerEnteroValidado("Unidades a vender: ", 1, 1000000);
+    if (unidades > cantidades[idx]) {
+        cout << "Error: stock insuficiente. Disponible: " << cantidades[idx]
+             << ", solicitado: " << unidades << ". No se modifico el stock.\n";
+        return;
+    }
+
+    cantidades[idx] -= unidades;
+    cout << "Venta registrada. Stock restante de '" << productos[idx] << "': " << cantidades[idx] << "\n";
+}
+
+// Ejercicio 6: Reponer existencias sumando unidades positivas al stock actual
+void reponerStock(const string productos[], const string marcas[], int cantidades[], int total) {
+    if (total <= 0) {
+        cout << "El inventario esta vacio. No se puede reponer stock.\n";
+        return;
+    }
+
+    string parcial = leerTextoNoVacio("Ingrese nombre o parte del nombre del producto a reponer: ", 1);
+    int idxEncontrado = -1;
+    int coincidencias = 0;
+
+    for (int i = 0; i < total; i++) {
+        if (productos[i].find(parcial) != string::npos) {
+            idxEncontrado = i;
+            coincidencias++;
+        }
+    }
+
+    if (coincidencias == 0) {
+        cout << "No se encontro ningun producto que contenga '" << parcial << "'.\n";
+        return;
+    }
+
+    if (coincidencias > 1) {
+        cout << "Se encontraron multiples coincidencias. Indique nombre y marca exactos:\n";
+        string nombreEx = leerTextoNoVacio("Nombre exacto: ", 3);
+        string marcaEx = leerTextoNoVacio("Marca exacta: ", 3);
+        idxEncontrado = buscarExacto(productos, marcas, total, nombreEx, marcaEx);
+        if (idxEncontrado == -1) {
+            cout << "No se encontro el registro exacto.\n";
+            return;
+        }
+    }
+
+    int recibidas = leerEnteroValidado("Unidades recibidas para reponer (> 0): ", 1, 1000000);
+    int anterior = cantidades[idxEncontrado];
+    cantidades[idxEncontrado] = anterior + recibidas;
+
+    cout << "Reposicion exitosa para '" << productos[idxEncontrado] << "' (" << marcas[idxEncontrado] << "):\n"
+         << "Cantidad anterior: " << anterior
+         << " | Recibidas: " << recibidas
+         << " | Total actual: " << cantidades[idxEncontrado] << "\n";
+}
+
+// Ejercicio 7: Generar código de 3 letras usando length() y substr(0, 3)
+string generarCodigo(const string& nombre) {
+    if (nombre.empty() || static_cast<int>(nombre.length()) < 3) {
+        return "N/A";
+    }
+    return nombre.substr(0, 3);
+}
+
+void mostrarStockBajo(const string productos[], const string marcas[], const int cantidades[], int total) {
+    if (total <= 0) {
+        cout << "El inventario esta vacio.\n";
+        return;
+    }
+
+    int contadorBajo = 0;
+    cout << "\n=== ALERTAS DE STOCK BAJO (< " << UMBRAL_STOCK_BAJO << " UNIDADES) ===\n";
+    for (int i = 0; i < total; i++) {
+        if (cantidades[i] < UMBRAL_STOCK_BAJO) {
+            string codigo = generarCodigo(productos[i]);
+            cout << "[ALERTA] Indice " << i
+                 << " | Codigo: " << codigo
+                 << " | Producto: " << productos[i]
+                 << " | Marca: " << marcas[i]
+                 << " | Stock: " << cantidades[i] << "\n";
+            contadorBajo++;
+        }
+    }
+
+    if (contadorBajo == 0) {
+        cout << "No hay productos con stock menor a " << UMBRAL_STOCK_BAJO << " unidades.\n";
+    } else {
+        cout << "Total de productos con stock bajo: " << contadorBajo << "\n";
+    }
+}
+
+// Ejercicio 8: Consultar productos por marca exacta usando compare()
+void buscarPorMarca(const string productos[], const string marcas[], const int cantidades[], int total) {
+    if (total <= 0) {
+        cout << "El inventario esta vacio.\n";
+        return;
+    }
+
+    string marcaConsulta = leerTextoNoVacio("Ingrese la marca a consultar: ", 1);
+    int encontradas = 0;
+
+    cout << "\n--- Productos de la marca '" << marcaConsulta << "' ---\n";
+    for (int i = 0; i < total; i++) {
+        if (marcas[i].compare(marcaConsulta) == 0) {
+            cout << "[" << i << "] Producto: " << productos[i]
+                 << " | Cantidad: " << cantidades[i] << "\n";
+            encontradas++;
+        }
+    }
+
+    if (encontradas == 0) {
+        cout << "No existen productos registrados con la marca '" << marcaConsulta << "'.\n";
+    } else {
+        cout << "Total de productos encontrados para '" << marcaConsulta << "': " << encontradas << "\n";
+    }
+}
+
+void agregarPrefijo(string& nombre) {
+    if (nombre.find(PREFIJO_PRO) == 0) {
+        cout << "El producto ya cuenta con el prefijo '" << PREFIJO_PRO << "'. No se duplica.\n";
+        return;
+    }
+    nombre.insert(0, PREFIJO_PRO);
+    cout << "Prefijo '" << PREFIJO_PRO << "' agregado correctamente.\n";
+}
+
+void quitarPrefijo(string& nombre) {
+    size_t pos = nombre.find(PREFIJO_PRO);
+    size_t lenPrefijo = PREFIJO_PRO.length();
+    if (pos == 0 && lenPrefijo <= nombre.length()) {
+        nombre.erase(0, lenPrefijo);
+        cout << "Prefijo '" << PREFIJO_PRO << "' eliminado correctamente.\n";
+    } else {
+        cout << "El nombre no comienza con el prefijo '" << PREFIJO_PRO << "'. No se realizaron cambios.\n";
+    }
+}
+
+// Ejercicio 9: Sustituir fragmento, agregar prefijo o quitar prefijo en un producto
+void corregirNombre(string productos[], const string marcas[], const int cantidades[], int total) {
+    if (total <= 0) {
+        cout << "El inventario esta vacio. No hay nombres para corregir.\n";
+        return;
+    }
+
+    string nombreActual = leerTextoNoVacio("Nombre exacto del producto a editar: ", 3);
+    string marcaActual = leerTextoNoVacio("Marca exacta del producto: ", 3);
+
+    int idx = buscarExacto(productos, marcas, total, nombreActual, marcaActual);
+    if (idx == -1) {
+        cout << "Producto no encontrado.\n";
+        return;
+    }
+
+    cout << "\nOperaciones disponibles sobre el nombre:\n"
+         << "1. Sustituir un fragmento existente (find + replace)\n"
+         << "2. Agregar prefijo 'PRO-' al inicio (insert)\n"
+         << "3. Quitar prefijo 'PRO-' del inicio (erase)\n";
+    int op = leerEnteroValidado("Elija operacion (1-3): ", 1, 3);
+
+    string antes = productos[idx];
+    string editado = productos[idx];
+
+    if (op == 1) {
+        string buscado = leerTextoNoVacio("Fragmento a buscar dentro del nombre: ", 1);
+        size_t pos = editado.find(buscado);
+        if (pos == string::npos || pos >= editado.length()) {
+            cout << "El fragmento '" << buscado << "' no existe en '" << editado << "'.\n";
+            return;
+        }
+        string reemplazo = leerTextoNoVacio("Nuevo fragmento de reemplazo: ", 1);
+        if (pos + buscado.length() <= editado.length()) {
+            editado.replace(pos, buscado.length(), reemplazo);
+            cout << "Fragmento reemplazado correctamente.\n";
+        }
+    } else if (op == 2) {
+        agregarPrefijo(editado);
+    } else if (op == 3) {
+        quitarPrefijo(editado);
+    }
+
+    // Evitar duplicar (nombre, marca) con otro producto existente
+    int duplicado = buscarExacto(productos, marcas, total, editado, marcas[idx]);
+    if (duplicado != -1 && duplicado != idx) {
+        cout << "Error: el nuevo nombre '" << editado << "' ya existe para la marca '" << marcas[idx]
+             << "' en el indice " << duplicado << ". Se cancela el cambio.\n";
+        return;
+    }
+
+    productos[idx] = editado;
+    cout << "Nombre anterior : " << antes << "\n"
+         << "Nombre actual   : " << productos[idx]
+         << " | Marca: " << marcas[idx]
+         << " | Stock: " << cantidades[idx] << "\n";
+}
+
+// Ejercicio 10: Menú principal y resumen estadístico del inventario
+void mostrarMenu() {
+    cout << "\n================ SISTEMA DE INVENTARIO (PROBLEMA A) ================\n"
+         << "1. Registrar producto(s)\n"
+         << "2. Listar productos\n"
+         << "3. Buscar producto por nombre (parcial)\n"
+         << "4. Actualizar stock\n"
+         << "5. Registrar venta\n"
+         << "6. Reponer existencias\n"
+         << "7. Alertas de stock bajo y codigos\n"
+         << "8. Consultar por marca\n"
+         << "9. Corregir nombre de producto\n"
+         << "10. Mostrar resumen de inventario\n"
+         << "11. Salir\n"
+         << "====================================================================\n";
+}
+
+void mostrarResumen(const string productos[], const string marcas[], const int cantidades[], int total) {
+    if (total <= 0) {
+        cout << "El inventario esta vacio. No hay resumen disponible.\n";
+        return;
+    }
+
+    int totalUnidades = 0;
+    int idxMayorStock = 0;
+
+    for (int i = 0; i < total; i++) {
+        totalUnidades += cantidades[i];
+        if (cantidades[i] > cantidades[idxMayorStock]) {
+            idxMayorStock = i;
+        }
+    }
+
+    cout << "\n================ RESUMEN DE INVENTARIO ================\n"
+         << "Cantidad de productos distintos : " << total << "\n"
+         << "Total de unidades en stock     : " << totalUnidades << "\n"
+         << "Producto con mayor stock       : " << productos[idxMayorStock]
+         << " (" << marcas[idxMayorStock] << ") con " << cantidades[idxMayorStock] << " unidades\n"
+         << "=======================================================\n";
+}
