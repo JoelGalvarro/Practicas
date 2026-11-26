@@ -1,0 +1,17 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int a, b;
+    cout << "Ingrese dos numeros enteros: ";
+    cin >> a >> b;
+
+    if ((a > 0 && b > 0) || (a < 0 && b < 0)) {
+        cout << "Tienen el mismo signo." << endl;
+    } else if (a == 0 || b == 0) {
+        cout << "Al menos uno es cero (el cero no tiene signo)." << endl;
+    } else {
+        cout << "Tienen signos diferentes." << endl;
+    }
+    return 0;
+}
