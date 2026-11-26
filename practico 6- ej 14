@@ -1,0 +1,35 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <cctype>
+using namespace std;
+
+string normalizar(string s) {
+    string res = "";
+    for (char c : s) {
+        if (isalpha(static_cast<unsigned char>(c))) {
+            res += tolower(static_cast<unsigned char>(c));
+        }
+    }
+    sort(res.begin(), res.end());
+    return res;
+}
+
+bool esAnagrama(string p1, string p2) {
+    return normalizar(p1) == normalizar(p2);
+}
+
+int main() {
+    string p1, p2;
+    cout << "Ingrese la primera palabra: ";
+    cin >> p1;
+    cout << "Ingrese la segunda palabra: ";
+    cin >> p2;
+
+    if (esAnagrama(p1, p2)) {
+        cout << "Son anagramas." << endl;
+    } else {
+        cout << "No son anagramas." << endl;
+    }
+    return 0;
+}
