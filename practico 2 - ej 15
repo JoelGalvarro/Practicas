@@ -1,0 +1,19 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    int n, valorAbs, d1, d2;
+    cout << "Ingrese un numero entero de dos digitos: ";
+    cin >> n;
+
+    valorAbs = abs(n);
+    if (valorAbs >= 10 && valorAbs <= 99) {
+        d1 = valorAbs / 10;
+        d2 = valorAbs % 10;
+        cout << "La suma de sus digitos es: " << d1 + d2 << endl;
+    } else {
+        cout << "El numero no tiene dos digitos." << endl;
+    }
+    return 0;
+}
