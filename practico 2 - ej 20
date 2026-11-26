@@ -1,0 +1,21 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    double salario, bono;
+    cout << "Ingrese el salario mensual (en Bs.): ";
+    cin >> salario;
+
+    if (salario < 3000) {
+        bono = salario * 0.15;
+    } else if (salario <= 6000) {
+        bono = salario * 0.10;
+    } else {
+        bono = salario * 0.05;
+    }
+
+    cout << fixed << setprecision(2);
+    cout << "El bono anual es de: " << bono << " Bs." << endl;
+    return 0;
+}
