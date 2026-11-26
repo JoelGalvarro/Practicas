@@ -1,0 +1,27 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+double calcularSalarioNeto(double horas, double precioHora) {
+    double bruto = horas * precioHora;
+    double impuesto = bruto * 0.10;
+    return bruto - impuesto;
+}
+
+int main() {
+    string nombre;
+    double horas, precioHora;
+
+    cout << "Ingrese el nombre del trabajador: ";
+    getline(cin, nombre);
+    cout << "Ingrese horas trabajadas y precio por hora: ";
+    cin >> horas >> precioHora;
+
+    double neto = calcularSalarioNeto(horas, precioHora);
+
+    cout << fixed << setprecision(2);
+    cout << "Trabajador: " << nombre << endl;
+    cout << "Salario Neto: " << neto << " Bs." << endl;
+    return 0;
+}
