@@ -1,0 +1,15 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    double a, b, c;
+    cout << "Ingrese las tres longitudes: ";
+    cin >> a >> b >> c;
+
+    if (a > 0 && b > 0 && c > 0 && (a + b > c) && (a + c > b) && (b + c > a)) {
+        cout << "Pueden formar un triangulo valido." << endl;
+    } else {
+        cout << "No pueden formar un triangulo valido." << endl;
+    }
+    return 0;
+}
