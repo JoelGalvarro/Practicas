@@ -1,0 +1,17 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    double nota;
+    cout << "Ingrese la calificacion (0 a 100): ";
+    cin >> nota;
+
+    if (nota < 0 || nota > 100) {
+        cout << "Calificacion fuera de rango." << endl;
+    } else if (nota >= 51) {
+        cout << "El estudiante aprobo." << endl;
+    } else {
+        cout << "El estudiante reprobo." << endl;
+    }
+    return 0;
+}
