@@ -1,0 +1,24 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    long long n, complemento = 0, pot = 1;
+    cout << "Ingrese un numero entero positivo: ";
+    cin >> n;
+
+    n = abs(n);
+    if (n == 0) {
+        complemento = 9;
+    } else {
+        while (n > 0) {
+            int digito = n % 10;
+            complemento += (9 - digito) * pot;
+            pot *= 10;
+            n /= 10;
+        }
+    }
+
+    cout << "Complemento a 9: " << complemento << endl;
+    return 0;
+}
