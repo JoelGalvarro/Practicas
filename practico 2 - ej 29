@@ -1,0 +1,17 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int claveIngresada;
+    const int claveGuardada = 1234;
+
+    cout << "Ingrese la contrasena de 4 digitos: ";
+    cin >> claveIngresada;
+
+    if (claveIngresada == claveGuardada) {
+        cout << "Acceso concedido" << endl;
+    } else {
+        cout << "Acceso denegado" << endl;
+    }
+    return 0;
+}
