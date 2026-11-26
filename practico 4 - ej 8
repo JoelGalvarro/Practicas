@@ -1,0 +1,35 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    long long codigo;
+    int valorMinimo, pares = 0, suma = 0;
+
+    cout << "Ingrese el codigo numerico: ";
+    cin >> codigo;
+    cout << "Ingrese el valor minimo que debe superar la suma: ";
+    cin >> valorMinimo;
+
+    codigo = abs(codigo);
+    if (codigo == 0) {
+        pares = 1;
+    } else {
+        while (codigo > 0) {
+            int digito = codigo % 10;
+            suma += digito;
+            if (digito % 2 == 0) {
+                pares++;
+            }
+            codigo /= 10;
+        }
+    }
+
+    cout << "Digitos pares: " << pares << " | Suma de digitos: " << suma << endl;
+    if (pares >= 2 && suma > valorMinimo) {
+        cout << "El codigo es SEGURO." << endl;
+    } else {
+        cout << "El codigo NO es seguro." << endl;
+    }
+    return 0;
+}
