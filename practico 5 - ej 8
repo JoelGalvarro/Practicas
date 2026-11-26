@@ -1,0 +1,46 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    int d, m, a, diasMes;
+    cout << "Ingrese la fecha (dia mes anio): ";
+    cin >> d >> m >> a;
+
+    bool bisiesto = (a % 4 == 0 && a % 100 != 0) || (a % 400 == 0);
+
+    switch (m) {
+        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+            diasMes = 31;
+            break;
+        case 4: case 6: case 9: case 11:
+            diasMes = 30;
+            break;
+        case 2:
+            diasMes = bisiesto ? 29 : 28;
+            break;
+        default:
+            cout << "Mes invalido." << endl;
+            return 0;
+    }
+
+    if (d < 1 || d > diasMes) {
+        cout << "Dia invalido para el mes ingresado." << endl;
+        return 0;
+    }
+
+    d++;
+    if (d > diasMes) {
+        d = 1;
+        m++;
+        if (m > 12) {
+            m = 1;
+            a++;
+        }
+    }
+
+    cout << "Dia siguiente: "
+         << setw(2) << setfill('0') << d << "/"
+         << setw(2) << setfill('0') << m << "/" << a << endl;
+    return 0;
+}
