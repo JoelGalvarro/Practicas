@@ -1,0 +1,31 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    long long n;
+    int totalAcumulado = 0, mayoresA5 = 0, cantTransacciones = 0;
+
+    cout << "Ingrese el numero de transacciones (ej. 5726): ";
+    cin >> n;
+
+    n = abs(n);
+    if (n == 0) {
+        cantTransacciones = 1;
+    } else {
+        while (n > 0) {
+            int monto = n % 10;
+            totalAcumulado += monto;
+            cantTransacciones++;
+            if (monto > 5) {
+                mayoresA5++;
+            }
+            n /= 10;
+        }
+    }
+
+    cout << "Cantidad de transacciones analizadas: " << cantTransacciones << endl;
+    cout << "Transacciones mayores a 5: " << mayoresA5 << endl;
+    cout << "Total acumulado: " << totalAcumulado << endl;
+    return 0;
+}
