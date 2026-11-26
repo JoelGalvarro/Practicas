@@ -1,0 +1,17 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    double x, fx;
+    cout << "Ingrese el valor de x: ";
+    cin >> x;
+
+    if (x >= 0) {
+        fx = 5 * x;
+    } else {
+        fx = x + 2;
+    }
+
+    cout << "F(x) = " << fx << endl;
+    return 0;
+}
