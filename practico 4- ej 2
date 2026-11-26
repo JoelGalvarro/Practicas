@@ -1,0 +1,22 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    long long n, invertido = 0;
+    cout << "Ingrese un numero entero: ";
+    cin >> n;
+
+    bool negativo = (n < 0);
+    n = abs(n);
+
+    while (n > 0) {
+        invertido = invertido * 10 + (n % 10);
+        n /= 10;
+    }
+
+    if (negativo) invertido = -invertido;
+
+    cout << "Numero invertido: " << invertido << endl;
+    return 0;
+}
